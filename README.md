@@ -2,14 +2,15 @@
 以下为电力人工智能数据竞赛-安全帽未佩戴行为目标检测赛道基准模型介绍。其中包含了智源联邦学习框架的简化版本（真实版本后期会以论文的形式发布）、智源整理标注的初赛安全帽数据集和基于YOLOv3模型完成的实验。
 
 ## 环境要求
-* gevent==1.4.0
-* loguru==0.5.3
 * Python==3.7.6
+* Flask==1.1.1
+* gevent==20.9.0
+* loguru==0.5.3
 * numpy==1.18.1
 * Pillow==7.0.0
 * torch==1.6.0
 * terminaltables==3.1.0
-* torchvision==0.6.0
+* torchvision==0.7.0
 * tqdm==4.42.1
 
 详情请参考`baai-federated-learning-helmet-baseline`下面的`requirements.txt`
@@ -122,7 +123,7 @@
 ### 智源联邦学习客户端
 * 进入`baai-client/service/federated/config/preliminary_contest_helmet_federal`目录
   * 修改`preliminary_contest_helmet_federal.data`当中的数据路径
-  * 生成`yolov3`模型的`cfg`文件  
+  * 生成`yolov3`模型的`cfg`文件（先删除旧的`cfg`文件）  
   `bash create_preliminary_contest_helmet_federal_model.sh 2`
 * 进入`baai-client/config`
   * 修改`project_conf.py`当中的`host`和`port`
@@ -136,7 +137,7 @@
 ### 国网电力联邦学习客户端
 * 进入`sgcc-client/service/federated/config/preliminary_contest_helmet_federal`目录
   * 修改`preliminary_contest_helmet_federal.data`当中的数据路径
-  * 生成`yolov3`模型的`cfg`文件  
+  * 生成`yolov3`模型的`cfg`文件（先删除旧的`cfg`文件）  
   `bash create_preliminary_contest_helmet_federal_model.sh 2`
 * 进入`sgcc-client/config`
   * 修改`project_conf.py`当中的`host`和`port`
@@ -150,7 +151,7 @@
 ### 选手联邦学习服务端
 * 把下载好的[yolov3预训练模型](http://dorc-data.ks3-cn-beijing.ksyun.com/2015682aasdf154asdfe5d5aq961fa6eg/weights_yolov3_pre_model/weights.tar.gz)拷贝到`contestant-server/service/federated/weights`
 * 进入`contestant-server/service/federated/config/preliminary_contest_helmet_federal`目录
-  * 生成`yolov3`模型的`cfg`文件  
+  * 生成`yolov3`模型的`cfg`文件（先删除旧的`cfg`文件）  
   `bash create_preliminary_contest_helmet_federal_model.sh 2`
 * 进入`contestant-server/config`
   * 修改`project_conf.py`当中的`host`和`port`
@@ -166,7 +167,7 @@
 * 召回率：R (Recall) = TP / (TP + FN)，所有真实正例中预测出了多少真实正例  
 * F1值：F1 Score = 2 * P * R / (P + R)，精确率和召回率的调和均值 
 * mAP (mean Average Precision): 目标检测模型的评估指标，参考[目标检测模型的评估指标mAP详解（附代码）](https://zhuanlan.zhihu.com/p/37910324)
-* 国网电子指标：马上更新
+* 国网电力指标：马上更新
 
 ## 实验结果
 基于默认实验参数，初赛安全帽测试集基于YOLOv3模型的结果： 
@@ -193,3 +194,31 @@
 </tbody>
 </table>
 </div>
+
+## 选手问题答疑
+问题1：
+```
+File "your/python/path/python3.7/site-packages/torch/nn/modules/container.py", line 74, in _get_item_by_idx  
+raise IndexError('Index {} is out of range'.format(idx))  
+IndexError: index 0 is out of range  
+```  
+解决方案：在客户端和服务端生成新的`cfg`文件之前，先把旧的`cfg`文件删除掉。
+
+问题2：
+```
+File "service/federated/server.py", line 81, in call_federated_train_size  
+federated_train_size = Common.get_dict_by_json_str_func(train_job.value['data'])["federated_train_size"]  
+TypeError: 'NoneType' object is not subscriptable
+```  
+解决方案：查看客户端报错信息，如果是`Flask`包相关错误，将`Flask`升级为`1.1.1`版本。
+
+问题3：
+```
+Start executing step: call federated train size  
+Segmentation fault (core dumped)
+```
+解决方案：很可能是`gevent`版本的问题，升级到`20.9.0`版本。
+
+问题4：  
+电力指标相关的问题。  
+解决方法：今天会更新国网电力指标说明。
