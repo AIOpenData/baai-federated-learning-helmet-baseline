@@ -163,11 +163,11 @@
     `PYTHONPATH=your/project/path/contestant-server python service/federated/server.py`
 
 ## 实验指标 
-* 正确率：P (Precision) = TP / (TP + FP)，所有预测出来的正例中有多少是真的正例
-* 召回率：R (Recall) = TP / (TP + FN)，所有真实正例中预测出了多少真实正例  
-* F1值：F1 Score = 2 * P * R / (P + R)，精确率和召回率的调和均值 
-* mAP (mean Average Precision): 目标检测模型的评估指标，参考[目标检测模型的评估指标mAP详解（附代码）](https://zhuanlan.zhihu.com/p/37910324)
-* 国网电力指标：马上更新
+* ~~正确率：P (Precision) = TP / (TP + FP)，所有预测出来的正例中有多少是真的正例~~
+* ~~召回率：R (Recall) = TP / (TP + FN)，所有真实正例中预测出了多少真实正例~~  
+* ~~F1值：F1 Score = 2 * P * R / (P + R)，精确率和召回率的调和均值~~ 
+* ~~mAP (mean Average Precision): 目标检测模型的评估指标~~
+* 国网电力指标：[电力人工智能数据竞赛指标计算方法和自动评测脚本的详细介绍](https://github.com/AIOpenData/baai-federated-learning-baseline-metric)
 
 ## 实验结果
 基于默认实验参数，初赛安全帽测试集基于YOLOv3模型的结果： 
@@ -175,21 +175,13 @@
 <table border="1" cellspacing="0" cellpadding="10" width="100%">
 <thead>
 <tr class="firstHead">  
-<th colspan="1" rowspan="1">Index</th> <th>Class name</th> <th>Precision</th> <th>Recall</th> <th>F1</th> <th>AP (mAP)</th>
+<th colspan="1" rowspan="1">false detection rate</th> <th>missed detection rate</th> <th>object detection correct rate</th> <th>sgcc helmet image score</th>
  </tr>
 </thead>
 <tbody>
 <tr>
-<td>0</td>
-<td>Wear_helmet</td> <td>0.31408</td></td> <td>0.66526</td> <td>0.42670</td> <td>0.55481</td>
-</tr>
-<tr>
-<td>1</td>
-<td>No_helmet</td> <td>0.39388</td> <td>0.82585</td> <td>0.53337</td> <td>0.72258</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Total</td> <td>0.35398</td> <td>0.74556</td> <td>0.48004</td> <td>0.63870</td>
+<td>0.3646477132262052</td>
+<td>0.028833551769331587</td> <td>0.8059418457648546</td> <td>0.8373772793004436</td>
 </tr>
 </tbody>
 </table>
@@ -221,4 +213,4 @@ Segmentation fault (core dumped)
 
 问题4：  
 电力指标相关的问题。  
-解决方法：今天会更新国网电力指标说明。
+已经在官网更新国网电力指标说明。
